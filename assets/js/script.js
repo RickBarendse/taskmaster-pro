@@ -110,12 +110,21 @@ $(".list-group").on("click", "span", function() {
   // swap out elements
   $(this).replaceWith(dateInput);
 
-  // automatically focus on new element
-  dataInput.trigger("focus");
+  //enable jquery ui datepicker
+  dateInput.datepicker({
+    minDate: 1,
+    onClose: function() {
+      // whne calendar is closed, for a "change"event on the dataInput
+      $(this).trigger("change");
+    }
+  });
+
+  // automatically bring up the calendar
+  dateInput.trigger("focus");
 });
 
 // value of due date was changed
-$(".list-group").on("blur", "input[type='text']", function() {
+$(".list-group").on("change", "input[type='text']", function() {
   // get current text
   var date = $(this)
     .val()
@@ -142,7 +151,7 @@ $(".list-group").on("blur", "input[type='text']", function() {
     .text(date);
 
   // replace input with span element
-  $(this).repalceWith(taskSpan);
+  $(this).replaceWith(taskSpan);
 });
 
 // editable field was un-focued
@@ -254,3 +263,14 @@ $("#trash").droppable({
     console.log("out");
   }
 });
+
+$("#modalDueDate").datepicker({
+  minDate: 1
+});
+
+
+// setInterval(function() {
+//   $(".card .list-group-item").each(function(index, el) {
+//     auditTask(el);
+//   });
+// }, 5000);
